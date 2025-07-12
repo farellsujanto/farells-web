@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import StripBox from '../decorations/StripBox';
 
 interface MobileLayoutProps {
@@ -7,6 +7,13 @@ interface MobileLayoutProps {
 
 const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
     const [scrollY, setScrollY] = useState(0);
+
+    const randomizedImageNumbersLeft: number[] = useMemo(() => {
+        return Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1);
+    }, []);
+    const randomizedImageNumbersRight: number[] = useMemo(() => {
+        return Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -26,13 +33,16 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
-                            transform: `translateY(${scrollY * 0.5 - 1000}px)`, 
+                            transform: `translateY(${scrollY * 0.5 - 3000}px)`, 
                             height: 'calc(600vh + 1000px)' 
                         }}
                     >
-                        {Array.from({ length: 150 }, (_, i) => (
-                            <StripBox key={`left-${i}`} text={`${i + 1}`} />
-                        ))}
+                        {Array.from({ length: 150 }, (_, i) => {
+                            const imageNumber = randomizedImageNumbersLeft[i];
+                            return (
+                                <StripBox key={`left-${i}`} imageNumber={imageNumber} />
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -45,9 +55,12 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                             height: 'calc(600vh + 1000px)' 
                         }}
                     >
-                        {Array.from({ length: 150 }, (_, i) => (
-                            <StripBox key={`right-${i}`} text={`${i + 1}`} />
-                        ))}
+                        {Array.from({ length: 150 }, (_, i) => {
+                            const imageNumber = randomizedImageNumbersRight[i];
+                            return (
+                                <StripBox key={`right-${i}`} imageNumber={imageNumber} />
+                            );
+                        })}
                     </div>
                 </div>
 
