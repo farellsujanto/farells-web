@@ -22,7 +22,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
             {/* Force mobile view on all devices - Full width */}
             <div className="w-full min-h-screen bg-gray-950 relative">
                 {/* Left Film Strip - Scrolls DOWN when page scrolls DOWN */}
-                <div className="fixed left-0 top-0 h-screen w-20 bg-gradient-to-r from-gray-800 to-gray-700 border-r-2 border-gray-600 z-20">
+                <div className="fixed left-0 top-0 h-screen w-20 bg-gradient-to-r from-gray-900 to-gray-800 border-r-2 border-gray-700 z-20">
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
@@ -37,7 +37,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                 </div>
 
                 {/* Right Film Strip - Scrolls UP when page scrolls DOWN */}
-                <div className="fixed right-0 top-0 h-screen w-20 bg-gradient-to-l from-gray-800 to-gray-700 border-l-2 border-gray-600 z-20">
+                <div className="fixed right-0 top-0 h-screen w-20 bg-gradient-to-l from-gray-900 to-gray-800 border-l-2 border-gray-700 z-20">
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
