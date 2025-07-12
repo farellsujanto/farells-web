@@ -6,10 +6,10 @@ const StripBox = ({
     text: string;
 }) => {
     return (
-        <div className="w-16 h-16 mx-auto mb-6 bg-gray-600 border border-gray-500 rounded-lg overflow-hidden shadow-md flex-shrink-0">
-            {/* Placeholder for photo - you can replace with actual images */}
-            <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
-                <div className="w-8 h-8 bg-gray-300 rounded-md opacity-50 text-xs flex items-center justify-center text-gray-700 font-mono">
+        <div className="w-12 h-12 mx-auto mb-4 bg-gray-800/20 border border-gray-700/20 rounded-lg overflow-hidden flex-shrink-0 backdrop-blur-sm">
+            {/* Minimalist placeholder */}
+            <div className="w-full h-full bg-gray-800/10 flex items-center justify-center">
+                <div className="w-6 h-6 bg-gray-700/30 rounded opacity-40 text-xs flex items-center justify-center text-gray-500 font-light">
                     {text}
                 </div>
             </div>

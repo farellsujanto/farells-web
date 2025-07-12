@@ -19,40 +19,40 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
 
     return (
         <div className="min-h-screen w-full bg-gray-950 relative overflow-hidden">
-            {/* Force mobile view on all devices - Full width */}
+            {/* Minimalist mobile view */}
             <div className="w-full min-h-screen bg-gray-950 relative">
-                {/* Left Film Strip - Scrolls DOWN when page scrolls DOWN */}
-                <div className="fixed left-0 top-0 h-screen w-20 bg-gradient-to-r from-gray-900 to-gray-800 border-r-2 border-gray-700 z-20">
+                {/* Left Film Strip - More subtle */}
+                <div className="fixed left-0 top-0 h-screen w-16 bg-gray-900/50 backdrop-blur-sm border-r border-gray-800/30 z-20">
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
-                            transform: `translateY(${scrollY * 0.8 - 2000}px)`, // Larger negative offset
-                            height: 'calc(800vh + 2000px)' // Much larger height
+                            transform: `translateY(${scrollY * 0.5 - 1000}px)`, 
+                            height: 'calc(600vh + 1000px)' 
                         }}
                     >
-                        {Array.from({ length: 200 }, (_, i) => (
-                            <StripBox key={`left-${i}`} text={`L${i + 1}`} />
+                        {Array.from({ length: 150 }, (_, i) => (
+                            <StripBox key={`left-${i}`} text={`${i + 1}`} />
                         ))}
                     </div>
                 </div>
 
-                {/* Right Film Strip - Scrolls UP when page scrolls DOWN */}
-                <div className="fixed right-0 top-0 h-screen w-20 bg-gradient-to-l from-gray-900 to-gray-800 border-l-2 border-gray-700 z-20">
+                {/* Right Film Strip - More subtle */}
+                <div className="fixed right-0 top-0 h-screen w-16 bg-gray-900/50 backdrop-blur-sm border-l border-gray-800/30 z-20">
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
-                            transform: `translateY(${-scrollY * 0.8}px)`,
-                            height: 'calc(800vh + 2000px)' // Much larger height
+                            transform: `translateY(${-scrollY * 0.5}px)`,
+                            height: 'calc(600vh + 1000px)' 
                         }}
                     >
-                        {Array.from({ length: 200 }, (_, i) => (
-                            <StripBox key={`right-${i}`} text={`R${i + 1}`} />
+                        {Array.from({ length: 150 }, (_, i) => (
+                            <StripBox key={`right-${i}`} text={`${i + 1}`} />
                         ))}
                     </div>
                 </div>
 
                 {/* Main Content Area */}
-                <div className="mx-20 min-h-screen bg-white shadow-lg relative z-10">
+                <div className="mx-16 min-h-screen bg-gray-950 relative z-10">
                     {children}
                 </div>
             </div>
