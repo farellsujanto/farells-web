@@ -17,7 +17,7 @@ const WeddingPage: React.FC = () => {
                             <div className="mb-8">
                                 <div className="text-xs tracking-[0.3em] text-purple-300 uppercase font-light mb-8 opacity-80">Together Forever</div>
                                 <h1 className="text-6xl md:text-7xl font-light mb-4 text-white tracking-wide leading-none">
-                                    Vera
+                                    Farell
                                 </h1>
                                 <div className="flex items-center justify-center mb-4">
                                     <div className="w-8 h-px bg-purple-400/60"></div>
@@ -25,7 +25,7 @@ const WeddingPage: React.FC = () => {
                                     <div className="w-8 h-px bg-purple-400/60"></div>
                                 </div>
                                 <h1 className="text-6xl md:text-7xl font-light text-white tracking-wide leading-none">
-                                    Farell
+                                    Vera
                                 </h1>
                             </div>
                         </div>
