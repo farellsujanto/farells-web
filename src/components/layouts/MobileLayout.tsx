@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+'use client';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import StripBox from '../decorations/StripBox';
 
 interface MobileLayoutProps {
@@ -7,12 +8,15 @@ interface MobileLayoutProps {
 
 const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
     const [scrollY, setScrollY] = useState(0);
+    const [isClient, setIsClient] = useState(false);
+    const [randomizedImageNumbersLeft, setRandomizedImageNumbersLeft] = useState<number[]>([]);
+    const [randomizedImageNumbersRight, setRandomizedImageNumbersRight] = useState<number[]>([]);
 
-    const randomizedImageNumbersLeft: number[] = useMemo(() => {
-        return Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1);
-    }, []);
-    const randomizedImageNumbersRight: number[] = useMemo(() => {
-        return Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1);
+    useEffect(() => {
+        setIsClient(true);
+        // Generate random numbers only on client side
+        setRandomizedImageNumbersLeft(Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1));
+        setRandomizedImageNumbersRight(Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1));
     }, []);
 
     useEffect(() => {
@@ -37,12 +41,22 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                             height: 'calc(600vh + 1000px)' 
                         }}
                     >
-                        {Array.from({ length: 150 }, (_, i) => {
-                            const imageNumber = randomizedImageNumbersLeft[i];
-                            return (
-                                <StripBox key={`left-${i}`} imageNumber={imageNumber} />
-                            );
-                        })}
+                        {isClient && randomizedImageNumbersLeft.length > 0 ? (
+                            Array.from({ length: 150 }, (_, i) => {
+                                const imageNumber = randomizedImageNumbersLeft[i];
+                                return (
+                                    <StripBox key={`left-${i}`} imageNumber={imageNumber} />
+                                );
+                            })
+                        ) : (
+                            // Fallback for SSR - show placeholder or first few images
+                            Array.from({ length: 150 }, (_, i) => {
+                                const imageNumber = (i % 85) + 1;
+                                return (
+                                    <StripBox key={`left-${i}`} imageNumber={imageNumber} />
+                                );
+                            })
+                        )}
                     </div>
                 </div>
 
@@ -55,12 +69,22 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                             height: 'calc(600vh + 1000px)' 
                         }}
                     >
-                        {Array.from({ length: 150 }, (_, i) => {
-                            const imageNumber = randomizedImageNumbersRight[i];
-                            return (
-                                <StripBox key={`right-${i}`} imageNumber={imageNumber} />
-                            );
-                        })}
+                        {isClient && randomizedImageNumbersRight.length > 0 ? (
+                            Array.from({ length: 150 }, (_, i) => {
+                                const imageNumber = randomizedImageNumbersRight[i];
+                                return (
+                                    <StripBox key={`right-${i}`} imageNumber={imageNumber} />
+                                );
+                            })
+                        ) : (
+                            // Fallback for SSR - show placeholder or first few images  
+                            Array.from({ length: 150 }, (_, i) => {
+                                const imageNumber = (i % 85) + 1;
+                                return (
+                                    <StripBox key={`right-${i}`} imageNumber={imageNumber} />
+                                );
+                            })
+                        )}
                     </div>
                 </div>
 

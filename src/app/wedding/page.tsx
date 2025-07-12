@@ -174,7 +174,7 @@ const WeddingPage: React.FC = () => {
                                 
                                 <p className="text-gray-400 leading-relaxed font-light tracking-wide text-sm">
                                     On a snowy Christmas morning at the local coffee shop, our eyes met over steaming cups of cocoa. 
-                                    What started as a simple "excuse me" became hours of conversation.
+                                    What started as a simple &ldquo;excuse me&rdquo; became hours of conversation.
                                 </p>
                             </div>
                         </div>
@@ -234,7 +234,7 @@ const WeddingPage: React.FC = () => {
                     
                     <div className="max-w-lg mx-auto">
                         <p className="text-center text-gray-400 mb-12 leading-relaxed font-light tracking-wide text-sm">
-                            We're here to help with any questions you may have about our special day.
+                            We&rsquo;re here to help with any questions you may have about our special day.
                         </p>
                         <div className="space-y-4">
                             <div className="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-800/50 text-center hover:border-gray-700/50 transition-all duration-500">
