@@ -29,11 +29,11 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
     }, []);
 
     return (
-        <div className="min-h-screen w-full bg-gray-950 relative overflow-hidden">
-            {/* Minimalist mobile view */}
-            <div className="w-full min-h-screen bg-gray-950 relative">
-                {/* Left Film Strip - More subtle */}
-                <div className="fixed left-0 top-0 h-screen w-16 bg-gray-900/50 backdrop-blur-sm border-r border-gray-800/30 z-20">
+        <div className="min-h-screen w-full bg-black relative overflow-hidden">
+            {/* Luxury car interior inspired mobile view */}
+            <div className="w-full min-h-screen bg-black relative">
+                {/* Left Film Strip - Mobile Premium luxury style */}
+                <div className="fixed left-0 top-0 h-screen w-12 bg-gradient-to-b from-gray-900/90 via-gray-900/80 to-gray-900/90 backdrop-blur-xl border-r border-amber-400/20 z-20">
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
@@ -60,8 +60,8 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                     </div>
                 </div>
 
-                {/* Right Film Strip - More subtle */}
-                <div className="fixed right-0 top-0 h-screen w-16 bg-gray-900/50 backdrop-blur-sm border-l border-gray-800/30 z-20">
+                {/* Right Film Strip - Mobile Premium luxury style */}
+                <div className="fixed right-0 top-0 h-screen w-12 bg-gradient-to-b from-gray-900/90 via-gray-900/80 to-gray-900/90 backdrop-blur-xl border-l border-amber-400/20 z-20">
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
@@ -88,8 +88,8 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                     </div>
                 </div>
 
-                {/* Main Content Area */}
-                <div className="mx-16 min-h-screen bg-gray-950 relative z-10">
+                {/* Main Content Area - Mobile Luxury black background */}
+                <div className="mx-12 min-h-screen bg-black relative z-10">
                     {children}
                 </div>
             </div>
