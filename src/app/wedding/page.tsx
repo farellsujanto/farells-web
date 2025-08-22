@@ -1,167 +1,197 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 import MobileLayout from '@src/components/layouts/MobileLayout';
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const WeddingPage: React.FC = () => {
     const [showOpening, setShowOpening] = useState(true);
     const [filmRollComplete, setFilmRollComplete] = useState(false);
     const [mainContentVisible, setMainContentVisible] = useState(false);
+    const [fadeOut, setFadeOut] = useState(false);
+    const [slideUp, setSlideUp] = useState(false);
 
     useEffect(() => {
-        // Film roll animation sequence
+        // Enhanced animation sequence
         const timer1 = setTimeout(() => {
             setFilmRollComplete(true);
-        }, 3000);
+        }, 2500);
 
         const timer2 = setTimeout(() => {
+            setFadeOut(true);
+        }, 3500);
+
+        const timer3 = setTimeout(() => {
+            setSlideUp(true);
+        }, 4000);
+
+        const timer4 = setTimeout(() => {
             setShowOpening(false);
             setMainContentVisible(true);
-        }, 4000);
+        }, 4500);
 
         return () => {
             clearTimeout(timer1);
             clearTimeout(timer2);
+            clearTimeout(timer3);
+            clearTimeout(timer4);
         };
     }, []);
 
     if (showOpening) {
         return (
-            <div className="fixed inset-0 bg-black z-50 overflow-hidden">
-                {/* Film Roll Opening Animation */}
+            <div className={`fixed inset-0 z-50 overflow-hidden transition-all duration-1000 ${fadeOut ? 'opacity-0' : 'opacity-100'} ${slideUp ? 'transform -translate-y-full' : ''}`} style={{ backgroundColor: '#1e1e1e' }}>
+                {/* Opening Image with Enhanced Fade Animation */}
                 <div className="relative w-full h-full">
-                    {/* Film strip background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"></div>
+                    {/* Background Image */}
+                    <div className={`absolute inset-0 transition-all duration-1000 ${filmRollComplete ? 'scale-105' : 'scale-100'}`}>
+                        <Image
+                            src="/opening.webp"
+                            alt="Wedding Opening"
+                            fill
+                            className="object-cover transition-all duration-1000"
+                            style={{ 
+                                filter: `brightness(${filmRollComplete ? '0.6' : '0.8'}) blur(${fadeOut ? '3px' : '0px'})` 
+                            }}
+                            priority
+                            quality={90}
+                        />
+                    </div>
                     
-                    {/* Film perforations */}
-                    <div className="absolute left-4 top-0 bottom-0 w-8 flex flex-col justify-around">
-                        {Array.from({ length: 20 }).map((_, i) => (
-                            <div key={i} className="w-6 h-4 bg-black rounded-sm border border-gray-600"></div>
-                        ))}
-                    </div>
-                    <div className="absolute right-4 top-0 bottom-0 w-8 flex flex-col justify-around">
-                        {Array.from({ length: 20 }).map((_, i) => (
-                            <div key={i} className="w-6 h-4 bg-black rounded-sm border border-gray-600"></div>
-                        ))}
-                    </div>
+                    {/* Overlay for better text readability */}
+                    <div className={`absolute inset-0 transition-all duration-1000 ${filmRollComplete ? 'opacity-70' : 'opacity-40'}`} style={{ backgroundColor: 'rgba(30, 30, 30, 0.4)' }}></div>
 
-                    {/* Rolling film photos */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className={`film-roll-container transform transition-all duration-3000 ${filmRollComplete ? 'scale-110 opacity-0' : 'scale-100 opacity-100'}`}>
-                            <div className="flex space-x-4 animate-roll">
-                                {[1, 15, 30, 45, 60, 75].map((num, i) => (
-                                    <div key={i} className="film-frame w-32 h-24 bg-gray-700 border-2 border-gray-500 rounded overflow-hidden">
-                                        <img 
-                                            src={`/strip-images/${num}.webp`} 
-                                            alt={`Film frame ${i + 1}`}
-                                            className="w-full h-full object-cover opacity-80"
-                                        />
-                                    </div>
-                                ))}
+                    {/* Content overlay with enhanced animations */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <div className={`transform transition-all duration-2000 ease-out ${filmRollComplete ? 'scale-110 opacity-0 translate-y-8' : 'scale-100 opacity-100 translate-y-0'}`}>
+                            <div className="text-center">
+                                <h1 className={`text-5xl font-thin mb-4 tracking-wide transition-all duration-1500 ${filmRollComplete ? 'transform translate-y-4' : ''}`} style={{ color: '#f4f4e8' }}>
+                                    FARELL & VERA
+                                </h1>
+                                <div className={`w-32 h-px mx-auto mb-6 transition-all duration-1000 ${filmRollComplete ? 'w-48 opacity-30' : 'opacity-100'}`} style={{ backgroundColor: '#f1d0aa' }}></div>
+                                <p className={`text-lg font-light tracking-widest transition-all duration-1500 delay-300 ${filmRollComplete ? 'opacity-0 transform translate-y-4' : 'opacity-100'}`} style={{ color: '#f1d0aa' }}>
+                                    SEPTEMBER 28, 2025
+                                </p>
+                            </div>
+                        </div>
+                        
+                        {/* New elegant text that appears during transition */}
+                        <div className={`absolute inset-0 flex items-center justify-center transition-all duration-1500 delay-500 ${filmRollComplete ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'}`}>
+                            <div className="text-center">
+                                <div className={`text-2xl font-thin tracking-[0.3em] mb-4 transition-all duration-1000 ${fadeOut ? 'transform scale-95 opacity-50' : ''}`} style={{ color: '#f4f4e8' }}>
+                                    CELEBRATING LOVE
+                                </div>
+                                <div className={`w-24 h-px mx-auto transition-all duration-1000 ${fadeOut ? 'w-48' : ''}`} style={{ backgroundColor: '#f1d0aa' }}></div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Loading text */}
-                    <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
-                        <div className="text-white text-xl font-light tracking-widest animate-pulse">
-                            Loading Memories...
+                    {/* Enhanced Loading text */}
+                    <div className={`absolute bottom-20 left-1/2 transform -translate-x-1/2 transition-all duration-1000 ${fadeOut ? 'opacity-0 translate-y-4' : 'opacity-100'}`}>
+                        <div className="text-xl font-light tracking-widest animate-pulse" style={{ color: '#f4f4e8' }}>
+                            {filmRollComplete ? 'Preparing...' : 'Loading Memories...'}
+                        </div>
+                        
+                        {/* Progress indicator */}
+                        <div className="w-32 h-px mx-auto mt-4 bg-gradient-to-r from-transparent via-current to-transparent opacity-30">
+                            <div className={`h-full bg-current transition-all duration-3000 ease-out ${filmRollComplete ? 'w-full' : 'w-0'}`} style={{ backgroundColor: '#f1d0aa' }}></div>
                         </div>
                     </div>
                 </div>
 
-                <style jsx>{`
-                    @keyframes roll {
-                        0% { transform: translateX(100vw); }
-                        100% { transform: translateX(-100vw); }
-                    }
-                    .animate-roll {
-                        animation: roll 3s linear infinite;
-                    }
-                    .film-roll-container {
-                        transition: all 1s ease-in-out;
-                    }
-                `}</style>
             </div>
         );
     }
 
     return (
         <MobileLayout>
-            <main className={`bg-black min-h-screen transition-opacity duration-1000 ${mainContentVisible ? 'opacity-100' : 'opacity-0'}`}>
-                {/* Hero Section - Luxury Car UI Style */}
-                <section className="text-center py-24 bg-black relative overflow-hidden">
+            <main className={`min-h-screen transition-all duration-1500 ease-out ${mainContentVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'}`} style={{ backgroundColor: '#1e1e1e' }}>
+                {/* Hero Section - Updated Color Scheme */}
+                <section className={`text-center py-24 relative overflow-hidden transition-all duration-2000 delay-300 ${mainContentVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-12'}`} style={{ backgroundColor: '#1e1e1e' }}>
                     {/* Premium gradient background */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-amber-950/30 via-black to-blue-950/20"></div>
+                    <div className="absolute inset-0" style={{ 
+                        background: `linear-gradient(to bottom, rgba(241, 208, 170, 0.1) 0%, rgba(30, 30, 30, 1) 50%, rgba(244, 244, 232, 0.05) 100%)`
+                    }}></div>
                     
                     {/* Ambient lighting effects */}
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+                    <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(241, 208, 170, 0.1)' }}></div>
+                    <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(244, 244, 232, 0.05)' }}></div>
                     
                     <div className="relative z-10 px-4 max-w-sm mx-auto">
-                        {/* Wedding Logo Space */}
+                        {/* Wedding Logo */}
                         <div className="mb-8 flex justify-center">
-                            <div className="w-20 h-20 bg-gradient-to-br from-amber-400/20 to-blue-400/20 backdrop-blur-sm rounded-xl border border-amber-400/30 flex items-center justify-center group hover:border-amber-400/50 transition-all duration-500">
-                                <div className="w-full h-full bg-gray-900/30 rounded-lg flex items-center justify-center">
-                                    <span className="text-amber-400 text-xs font-light tracking-wider">LOGO</span>
-                                </div>
+                            <div className="w-20 h-20 flex items-center justify-center">
+                                <Image 
+                                    src="/logo.png" 
+                                    alt="Wedding Logo"
+                                    width={80}
+                                    height={80}
+                                    className="object-contain"
+                                    loading="lazy"
+                                />
                             </div>
                         </div>
 
                         <div className="mb-12">
                             {/* Mobile-optimized typography */}
                             <div className="mb-8">
-                                <div className="text-xs tracking-[0.2em] text-amber-400 uppercase font-light mb-8 opacity-90 text-center">
+                                <div className="text-xs tracking-[0.2em] uppercase font-light mb-8 opacity-90 text-center" style={{ color: '#f1d0aa' }}>
                                     CELEBRATING ETERNAL LOVE
                                 </div>
-                                <h1 className="text-4xl font-thin mb-4 text-white tracking-wide leading-tight luxury-text text-center">
+                                <h1 className="text-4xl font-thin mb-4 tracking-wide leading-tight luxury-text text-center" style={{ color: '#f4f4e8' }}>
                                     FARELL
                                 </h1>
                                 <div className="flex items-center justify-center mb-4">
-                                    <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-400/80 to-transparent"></div>
-                                    <span className="mx-4 text-xl text-amber-400 font-thin tracking-wide">&</span>
-                                    <div className="w-12 h-px bg-gradient-to-r from-transparent via-amber-400/80 to-transparent"></div>
+                                    <div className="w-12 h-px" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.8), transparent)` }}></div>
+                                    <span className="mx-4 text-xl font-thin tracking-wide" style={{ color: '#f1d0aa' }}>&</span>
+                                    <div className="w-12 h-px" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.8), transparent)` }}></div>
                                 </div>
-                                <h1 className="text-4xl font-thin text-white tracking-wide leading-tight luxury-text text-center">
+                                <h1 className="text-4xl font-thin leading-tight luxury-text text-center" style={{ color: '#f4f4e8' }}>
                                     VERA
                                 </h1>
                             </div>
                         </div>
 
                         {/* Premium invitation text */}
-                        <p className="text-sm text-gray-300 mb-12 font-light tracking-wide uppercase text-center">
+                        <p className="text-sm mb-12 font-light tracking-wide uppercase text-center" style={{ color: '#f4f4e8', opacity: 0.8 }}>
                             Request the Honor of Your Presence
                         </p>
 
-                        {/* Event details in luxury car dashboard style */}
-                        <div className="text-gray-200 space-y-3 mb-12 text-center">
-                            <p className="text-lg font-light tracking-wide text-amber-400">SEPTEMBER 28, 2025</p>
-                            <p className="text-gray-300 font-light tracking-wide text-sm">QUEEN CITY MALL, SEMARANG</p>
+                        {/* Event details */}
+                        <div className="space-y-3 mb-12 text-center">
+                            <p className="text-lg font-light tracking-wide" style={{ color: '#f1d0aa' }}>SEPTEMBER 28, 2025</p>
+                            <p className="font-light tracking-wide text-sm" style={{ color: '#f4f4e8', opacity: 0.9 }}>QUEEN CITY MALL, SEMARANG</p>
                         </div>
                         
-                        {/* Mobile-optimized HUD-style Countdown */}
-                        <div className="bg-black/60 backdrop-blur-xl rounded-2xl p-6 border-2 border-amber-400/30 shadow-2xl relative overflow-hidden">
+                        {/* Mobile-optimized Countdown */}
+                        <div className="backdrop-blur-xl rounded-2xl p-6 border-2 shadow-2xl relative overflow-hidden" style={{ 
+                            backgroundColor: 'rgba(30, 30, 30, 0.8)',
+                            borderColor: 'rgba(241, 208, 170, 0.3)'
+                        }}>
                             {/* Inner glow effect */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-amber-400/5 via-transparent to-blue-400/5 rounded-2xl"></div>
+                            <div className="absolute inset-0 rounded-2xl" style={{ 
+                                background: `linear-gradient(to right, rgba(241, 208, 170, 0.05), transparent, rgba(244, 244, 232, 0.05))`
+                            }}></div>
                             
                             <div className="relative z-10">
-                                <p className="text-xs text-amber-400 mb-6 uppercase tracking-wide font-light opacity-90 text-center">
+                                <p className="text-xs mb-6 uppercase tracking-wide font-light opacity-90 text-center" style={{ color: '#f1d0aa' }}>
                                     COUNTDOWN TO FOREVER
                                 </p>
                                 <div className="grid grid-cols-3 gap-4">
                                     <div className="group text-center">
-                                        <div className="text-2xl font-thin text-white mb-2 group-hover:text-amber-400 transition-all duration-500 tracking-wide">37</div>
-                                        <div className="text-xs text-gray-400 uppercase tracking-wide font-light">DAYS</div>
-                                        <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent mt-2"></div>
+                                        <div className="text-2xl font-thin mb-2 group-hover:opacity-80 transition-all duration-500 tracking-wide" style={{ color: '#f4f4e8' }}>37</div>
+                                        <div className="text-xs uppercase tracking-wide font-light" style={{ color: '#f4f4e8', opacity: 0.7 }}>DAYS</div>
+                                        <div className="w-full h-px mt-2" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.3), transparent)` }}></div>
                                     </div>
                                     <div className="group text-center">
-                                        <div className="text-2xl font-thin text-white mb-2 group-hover:text-amber-400 transition-all duration-500 tracking-wide">16</div>
-                                        <div className="text-xs text-gray-400 uppercase tracking-wide font-light">HOURS</div>
-                                        <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent mt-2"></div>
+                                        <div className="text-2xl font-thin mb-2 group-hover:opacity-80 transition-all duration-500 tracking-wide" style={{ color: '#f4f4e8' }}>16</div>
+                                        <div className="text-xs uppercase tracking-wide font-light" style={{ color: '#f4f4e8', opacity: 0.7 }}>HOURS</div>
+                                        <div className="w-full h-px mt-2" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.3), transparent)` }}></div>
                                     </div>
                                     <div className="group text-center">
-                                        <div className="text-2xl font-thin text-white mb-2 group-hover:text-amber-400 transition-all duration-500 tracking-wide">31</div>
-                                        <div className="text-xs text-gray-400 uppercase tracking-wide font-light">MIN</div>
-                                        <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent mt-2"></div>
+                                        <div className="text-2xl font-thin mb-2 group-hover:opacity-80 transition-all duration-500 tracking-wide" style={{ color: '#f4f4e8' }}>31</div>
+                                        <div className="text-xs uppercase tracking-wide font-light" style={{ color: '#f4f4e8', opacity: 0.7 }}>MIN</div>
+                                        <div className="w-full h-px mt-2" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.3), transparent)` }}></div>
                                     </div>
                                 </div>
                             </div>
@@ -170,43 +200,51 @@ const WeddingPage: React.FC = () => {
 
                     <style jsx>{`
                         .luxury-text {
-                            text-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+                            text-shadow: 0 0 30px rgba(241, 208, 170, 0.3);
                         }
                     `}</style>
                 </section>
 
-                {/* Meet the Couple Section - Mobile Luxury */}
-                <section className="py-16 px-4 bg-black relative">
+                {/* Meet the Couple Section */}
+                <section className={`py-16 px-4 relative transition-all duration-2000 delay-500 ${mainContentVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-12'}`} style={{ backgroundColor: '#1e1e1e' }}>
                     {/* Ambient lighting */}
-                    <div className="absolute top-1/4 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
-                    <div className="absolute bottom-1/4 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
+                    <div className="absolute top-1/4 left-0 w-32 h-32 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(244, 244, 232, 0.05)' }}></div>
+                    <div className="absolute bottom-1/4 right-0 w-32 h-32 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(241, 208, 170, 0.1)' }}></div>
                     
                     <div className="text-center mb-12 max-w-sm mx-auto relative z-10">
-                        <div className="text-xs tracking-wide text-blue-400 uppercase font-light mb-4 opacity-90">INTRODUCING</div>
-                        <h2 className="text-3xl font-thin mb-6 text-white tracking-wide luxury-text">THE COUPLE</h2>
-                        <p className="text-gray-300 font-light tracking-wide leading-relaxed">
+                        <div className="text-xs tracking-wide uppercase font-light mb-4 opacity-90" style={{ color: '#f1d0aa' }}>INTRODUCING</div>
+                        <h2 className="text-3xl font-thin mb-6 tracking-wide luxury-text" style={{ color: '#f4f4e8' }}>THE COUPLE</h2>
+                        <p className="font-light tracking-wide leading-relaxed" style={{ color: '#f4f4e8', opacity: 0.8 }}>
                             Two Hearts, One Destiny
                         </p>
                     </div>
                     
                     <div className="space-y-12 max-w-sm mx-auto relative z-10">
-                        {/* Groom - Mobile Premium Card */}
+                        {/* Groom - Premium Card */}
                         <div className="group">
-                            <div className="bg-black/80 backdrop-blur-xl rounded-2xl p-6 border-2 border-amber-400/20 shadow-2xl hover:border-amber-400/40 transition-all duration-700 relative overflow-hidden">
+                            <div className="backdrop-blur-xl rounded-2xl p-6 border-2 shadow-2xl hover:border-opacity-60 transition-all duration-700 relative overflow-hidden" style={{
+                                backgroundColor: 'rgba(30, 30, 30, 0.8)',
+                                borderColor: 'rgba(241, 208, 170, 0.2)'
+                            }}>
                                 {/* Inner glow */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 via-transparent to-transparent rounded-2xl"></div>
+                                <div className="absolute inset-0 rounded-2xl" style={{ 
+                                    background: `linear-gradient(to bottom right, rgba(241, 208, 170, 0.05), transparent)`
+                                }}></div>
                                 
                                 <div className="relative z-10 text-center">
                                     <div className="mb-6">
-                                        <div className="w-24 h-24 bg-gradient-to-br from-amber-400/20 to-amber-600/20 rounded-2xl mx-auto flex items-center justify-center border-2 border-amber-400/30 group-hover:border-amber-400/50 transition-all duration-700 overflow-hidden backdrop-blur-sm">
-                                            <div className="w-full h-full bg-gray-900/20 flex items-center justify-center rounded-xl">
-                                                <span className="text-amber-400 text-xs font-light tracking-wide">PHOTO</span>
+                                        <div className="w-24 h-24 rounded-2xl mx-auto flex items-center justify-center border-2 group-hover:border-opacity-70 transition-all duration-700 overflow-hidden backdrop-blur-sm" style={{
+                                            background: `linear-gradient(to bottom right, rgba(241, 208, 170, 0.2), rgba(244, 244, 232, 0.1))`,
+                                            borderColor: 'rgba(241, 208, 170, 0.3)'
+                                        }}>
+                                            <div className="w-full h-full flex items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(30, 30, 30, 0.2)' }}>
+                                                <span className="text-xs font-light tracking-wide" style={{ color: '#f1d0aa' }}>PHOTO</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 className="text-xl font-thin mb-3 text-white tracking-wide luxury-text">FARELL</h3>
-                                    <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent mx-auto mb-4"></div>
-                                    <p className="text-gray-300 leading-relaxed font-light tracking-wide text-sm">
+                                    <h3 className="text-xl font-thin mb-3 tracking-wide luxury-text" style={{ color: '#f4f4e8' }}>FARELL</h3>
+                                    <div className="w-16 h-px mx-auto mb-4" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.6), transparent)` }}></div>
+                                    <p className="leading-relaxed font-light tracking-wide text-sm" style={{ color: '#f4f4e8', opacity: 0.8 }}>
                                         A visionary with passion for capturing life's most precious moments. 
                                         Believes that every frame tells a story worth preserving forever.
                                     </p>
@@ -214,32 +252,40 @@ const WeddingPage: React.FC = () => {
                             </div>
                         </div>
                         
-                        {/* Mobile Luxury Divider */}
+                        {/* Divider */}
                         <div className="text-center">
                             <div className="flex items-center justify-center space-x-3">
-                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent"></div>
-                                <div className="w-2 h-2 bg-amber-400/60 rounded-full"></div>
-                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent"></div>
+                                <div className="w-16 h-px" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.4), transparent)` }}></div>
+                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgba(241, 208, 170, 0.6)' }}></div>
+                                <div className="w-16 h-px" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.4), transparent)` }}></div>
                             </div>
                         </div>
                         
-                        {/* Bride - Mobile Premium Card */}
+                        {/* Bride - Premium Card */}
                         <div className="group">
-                            <div className="bg-black/80 backdrop-blur-xl rounded-2xl p-6 border-2 border-blue-400/20 shadow-2xl hover:border-blue-400/40 transition-all duration-700 relative overflow-hidden">
+                            <div className="backdrop-blur-xl rounded-2xl p-6 border-2 shadow-2xl hover:border-opacity-60 transition-all duration-700 relative overflow-hidden" style={{
+                                backgroundColor: 'rgba(30, 30, 30, 0.8)',
+                                borderColor: 'rgba(244, 244, 232, 0.2)'
+                            }}>
                                 {/* Inner glow */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 via-transparent to-transparent rounded-2xl"></div>
+                                <div className="absolute inset-0 rounded-2xl" style={{ 
+                                    background: `linear-gradient(to bottom right, rgba(244, 244, 232, 0.05), transparent)`
+                                }}></div>
                                 
                                 <div className="relative z-10 text-center">
                                     <div className="mb-6">
-                                        <div className="w-24 h-24 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-2xl mx-auto flex items-center justify-center border-2 border-blue-400/30 group-hover:border-blue-400/50 transition-all duration-700 overflow-hidden backdrop-blur-sm">
-                                            <div className="w-full h-full bg-gray-900/20 flex items-center justify-center rounded-xl">
-                                                <span className="text-blue-400 text-xs font-light tracking-wide">PHOTO</span>
+                                        <div className="w-24 h-24 rounded-2xl mx-auto flex items-center justify-center border-2 group-hover:border-opacity-70 transition-all duration-700 overflow-hidden backdrop-blur-sm" style={{
+                                            background: `linear-gradient(to bottom right, rgba(244, 244, 232, 0.2), rgba(241, 208, 170, 0.1))`,
+                                            borderColor: 'rgba(244, 244, 232, 0.3)'
+                                        }}>
+                                            <div className="w-full h-full flex items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(30, 30, 30, 0.2)' }}>
+                                                <span className="text-xs font-light tracking-wide" style={{ color: '#f4f4e8' }}>PHOTO</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 className="text-xl font-thin mb-3 text-white tracking-wide luxury-text">VERA</h3>
-                                    <div className="w-16 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent mx-auto mb-4"></div>
-                                    <p className="text-gray-300 leading-relaxed font-light tracking-wide text-sm">
+                                    <h3 className="text-xl font-thin mb-3 tracking-wide luxury-text" style={{ color: '#f4f4e8' }}>VERA</h3>
+                                    <div className="w-16 h-px mx-auto mb-4" style={{ background: `linear-gradient(to right, transparent, rgba(244, 244, 232, 0.6), transparent)` }}></div>
+                                    <p className="leading-relaxed font-light tracking-wide text-sm" style={{ color: '#f4f4e8', opacity: 0.8 }}>
                                         An artist whose heart speaks through creativity and grace. 
                                         Finds beauty in life's simplest moments and believes love is the ultimate masterpiece.
                                     </p>
@@ -249,57 +295,66 @@ const WeddingPage: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Wedding Events Section - Mobile Luxury */}
-                <section className="py-16 px-4 bg-black relative">
+                {/* Wedding Events Section */}
+                <section className={`py-16 px-4 relative transition-all duration-2000 delay-700 ${mainContentVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-12'}`} style={{ backgroundColor: '#1e1e1e' }}>
                     {/* Ambient lighting effects */}
-                    <div className="absolute top-0 right-1/3 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                    <div className="absolute top-0 right-1/3 w-40 h-40 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(241, 208, 170, 0.1)' }}></div>
                     
                     <div className="text-center mb-12 max-w-sm mx-auto relative z-10">
-                        <div className="text-xs tracking-wide text-emerald-400 uppercase font-light mb-4 opacity-90">EVENT DETAILS</div>
-                        <h2 className="text-3xl font-thin mb-6 text-white tracking-wide luxury-text">CELEBRATION</h2>
+                        <div className="text-xs tracking-wide uppercase font-light mb-4 opacity-90" style={{ color: '#f1d0aa' }}>EVENT DETAILS</div>
+                        <h2 className="text-3xl font-thin mb-6 tracking-wide luxury-text" style={{ color: '#f4f4e8' }}>CELEBRATION</h2>
                     </div>
                     
                     <div className="max-w-sm mx-auto relative z-10">
-                        {/* Venue Image Slot - Mobile Display */}
+                        {/* Venue Image Slot */}
                         <div className="mb-8">
-                            <div className="w-full h-40 bg-gradient-to-br from-emerald-400/10 to-emerald-600/10 backdrop-blur-xl rounded-2xl flex items-center justify-center border-2 border-emerald-400/20 overflow-hidden relative group hover:border-emerald-400/40 transition-all duration-700">
-                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/5 via-transparent to-emerald-400/5"></div>
-                                <div className="w-full h-full bg-gray-900/20 flex items-center justify-center relative z-10">
-                                    <span className="text-emerald-400 font-light tracking-wide">VENUE SHOWCASE</span>
+                            <div className="w-full h-40 backdrop-blur-xl rounded-2xl flex items-center justify-center border-2 overflow-hidden relative group hover:border-opacity-60 transition-all duration-700" style={{
+                                background: `linear-gradient(to bottom right, rgba(241, 208, 170, 0.1), rgba(244, 244, 232, 0.05))`,
+                                borderColor: 'rgba(241, 208, 170, 0.2)'
+                            }}>
+                                <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(241, 208, 170, 0.05), transparent, rgba(241, 208, 170, 0.05))` }}></div>
+                                <div className="w-full h-full flex items-center justify-center relative z-10" style={{ backgroundColor: 'rgba(30, 30, 30, 0.2)' }}>
+                                    <span className="font-light tracking-wide" style={{ color: '#f1d0aa' }}>VENUE SHOWCASE</span>
                                 </div>
                             </div>
                         </div>
                         
-                        {/* Event Details - Mobile Dashboard Style */}
-                        <div className="bg-black/80 backdrop-blur-xl rounded-2xl p-6 border-2 border-emerald-400/20 shadow-2xl hover:border-emerald-400/40 transition-all duration-700 relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 via-transparent to-transparent rounded-2xl"></div>
+                        {/* Event Details */}
+                        <div className="backdrop-blur-xl rounded-2xl p-6 border-2 shadow-2xl hover:border-opacity-60 transition-all duration-700 relative overflow-hidden" style={{
+                            backgroundColor: 'rgba(30, 30, 30, 0.8)',
+                            borderColor: 'rgba(241, 208, 170, 0.2)'
+                        }}>
+                            <div className="absolute inset-0 rounded-2xl" style={{ background: `linear-gradient(to bottom right, rgba(241, 208, 170, 0.05), transparent)` }}></div>
                             
                             <div className="relative z-10">
                                 <div className="flex items-start mb-6">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-400/30 to-emerald-600/30 rounded-xl flex items-center justify-center mr-4 border-2 border-emerald-400/40 backdrop-blur-sm">
-                                        <span className="text-emerald-400 text-lg">✦</span>
+                                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4 border-2 backdrop-blur-sm" style={{
+                                        background: `linear-gradient(to bottom right, rgba(241, 208, 170, 0.3), rgba(244, 244, 232, 0.2))`,
+                                        borderColor: 'rgba(241, 208, 170, 0.4)'
+                                    }}>
+                                        <span className="text-lg" style={{ color: '#f1d0aa' }}>✦</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-lg font-thin text-white mb-2 tracking-wide luxury-text">EVENING RECEPTION</h3>
-                                        <p className="text-emerald-400 font-light tracking-wide text-sm">19:00 - 00:00 WIB</p>
+                                        <h3 className="text-lg font-thin mb-2 tracking-wide luxury-text" style={{ color: '#f4f4e8' }}>EVENING RECEPTION</h3>
+                                        <p className="font-light tracking-wide text-sm" style={{ color: '#f1d0aa' }}>19:00 - 00:00 WIB</p>
                                     </div>
                                 </div>
                                 
                                 <div className="space-y-4 mb-6">
                                     <div>
-                                        <p className="text-gray-300 mb-1 font-light tracking-wide text-sm">DATE</p>
-                                        <p className="text-white text-sm font-thin tracking-wide">SUNDAY, 28TH SEPTEMBER 2025</p>
+                                        <p className="mb-1 font-light tracking-wide text-sm" style={{ color: '#f4f4e8', opacity: 0.7 }}>DATE</p>
+                                        <p className="text-sm font-thin tracking-wide" style={{ color: '#f4f4e8' }}>SUNDAY, 28TH SEPTEMBER 2025</p>
                                     </div>
                                     <div>
-                                        <p className="text-gray-300 mb-1 font-light tracking-wide text-sm">VENUE</p>
-                                        <p className="text-white text-sm font-thin tracking-wide">QUEEN CITY MALL</p>
-                                        <p className="text-gray-400 text-sm font-light tracking-wide">SEMARANG</p>
+                                        <p className="mb-1 font-light tracking-wide text-sm" style={{ color: '#f4f4e8', opacity: 0.7 }}>VENUE</p>
+                                        <p className="text-sm font-thin tracking-wide" style={{ color: '#f4f4e8' }}>QUEEN CITY MALL</p>
+                                        <p className="text-sm font-light tracking-wide" style={{ color: '#f4f4e8', opacity: 0.8 }}>SEMARANG</p>
                                     </div>
                                 </div>
                                 
-                                <div className="w-full h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent mb-6"></div>
+                                <div className="w-full h-px mb-6" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.4), transparent)` }}></div>
                                 
-                                <p className="text-gray-300 leading-relaxed font-light tracking-wide text-sm">
+                                <p className="leading-relaxed font-light tracking-wide text-sm" style={{ color: '#f4f4e8', opacity: 0.8 }}>
                                     Join us for an unforgettable evening of elegance, fine dining, and celebration 
                                     as we begin our journey together as one.
                                 </p>
@@ -308,22 +363,25 @@ const WeddingPage: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Mobile Luxury Footer */}
-                <section className="py-16 bg-black border-t-2 border-amber-400/20 relative">
+                {/* Footer */}
+                <section className={`py-16 border-t-2 relative transition-all duration-2000 delay-900 ${mainContentVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-12'}`} style={{ 
+                    backgroundColor: '#1e1e1e',
+                    borderColor: 'rgba(241, 208, 170, 0.2)'
+                }}>
                     {/* Subtle ambient lighting */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-amber-400/5 via-transparent to-transparent"></div>
+                    <div className="absolute inset-0" style={{ background: `linear-gradient(to top, rgba(241, 208, 170, 0.05), transparent)` }}></div>
                     
                     <div className="text-center max-w-sm mx-auto relative z-10 px-4">
                         <div className="mb-6">
-                            <h3 className="text-2xl font-thin text-white mb-4 tracking-wide luxury-text">
-                                FARELL <span className="text-amber-400 mx-2">&</span> VERA
+                            <h3 className="text-2xl font-thin mb-4 tracking-wide luxury-text" style={{ color: '#f4f4e8' }}>
+                                FARELL <span className="mx-2" style={{ color: '#f1d0aa' }}>&</span> VERA
                             </h3>
-                            <div className="w-24 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent mx-auto mb-6"></div>
+                            <div className="w-24 h-px mx-auto mb-6" style={{ background: `linear-gradient(to right, transparent, rgba(241, 208, 170, 0.6), transparent)` }}></div>
                         </div>
-                        <p className="text-gray-300 text-sm font-light tracking-wide mb-4 uppercase">
+                        <p className="text-sm font-light tracking-wide mb-4 uppercase" style={{ color: '#f4f4e8', opacity: 0.8 }}>
                             With Love and Anticipation ♡
                         </p>
-                        <div className="text-xs text-gray-400 font-light tracking-wide uppercase">
+                        <div className="text-xs font-light tracking-wide uppercase" style={{ color: '#f4f4e8', opacity: 0.6 }}>
                             SEPTEMBER 28, 2025
                         </div>
                     </div>

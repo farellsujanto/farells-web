@@ -11,12 +11,20 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
     const [isClient, setIsClient] = useState(false);
     const [randomizedImageNumbersLeft, setRandomizedImageNumbersLeft] = useState<number[]>([]);
     const [randomizedImageNumbersRight, setRandomizedImageNumbersRight] = useState<number[]>([]);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
         // Generate random numbers only on client side
         setRandomizedImageNumbersLeft(Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1));
         setRandomizedImageNumbersRight(Array.from({ length: 150 }, () => Math.floor(Math.random() * 85) + 1));
+        
+        // Trigger entrance animation
+        const timer = setTimeout(() => {
+            setIsVisible(true);
+        }, 100);
+        
+        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
@@ -29,11 +37,14 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
     }, []);
 
     return (
-        <div className="min-h-screen w-full bg-black relative overflow-hidden">
-            {/* Luxury car interior inspired mobile view */}
-            <div className="w-full min-h-screen bg-black relative">
-                {/* Left Film Strip - Mobile Premium luxury style */}
-                <div className="fixed left-0 top-0 h-screen w-12 bg-gradient-to-b from-gray-900/90 via-gray-900/80 to-gray-900/90 backdrop-blur-xl border-r border-amber-400/20 z-20">
+        <div className="min-h-screen w-full relative overflow-hidden" style={{ backgroundColor: '#1e1e1e' }}>
+            {/* Updated Mobile Layout */}
+            <div className="w-full min-h-screen relative" style={{ backgroundColor: '#1e1e1e' }}>
+                {/* Left Film Strip - Updated Colors */}
+                <div className={`fixed left-0 top-0 h-screen w-12 backdrop-blur-xl border-r z-20 transition-all duration-1000 delay-200 ${isVisible ? 'transform translate-x-0 opacity-100' : 'transform -translate-x-full opacity-0'}`} style={{
+                    background: `linear-gradient(to bottom, rgba(30, 30, 30, 0.9), rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.9))`,
+                    borderColor: 'rgba(241, 208, 170, 0.2)'
+                }}>
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
@@ -60,8 +71,11 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                     </div>
                 </div>
 
-                {/* Right Film Strip - Mobile Premium luxury style */}
-                <div className="fixed right-0 top-0 h-screen w-12 bg-gradient-to-b from-gray-900/90 via-gray-900/80 to-gray-900/90 backdrop-blur-xl border-l border-amber-400/20 z-20">
+                {/* Right Film Strip - Updated Colors */}
+                <div className={`fixed right-0 top-0 h-screen w-12 backdrop-blur-xl border-l z-20 transition-all duration-1000 delay-300 ${isVisible ? 'transform translate-x-0 opacity-100' : 'transform translate-x-full opacity-0'}`} style={{
+                    background: `linear-gradient(to bottom, rgba(30, 30, 30, 0.9), rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.9))`,
+                    borderColor: 'rgba(241, 208, 170, 0.2)'
+                }}>
                     <div 
                         className="flex flex-col py-2"
                         style={{ 
@@ -88,8 +102,8 @@ const MobileLayout: FC<MobileLayoutProps> = ({ children }) => {
                     </div>
                 </div>
 
-                {/* Main Content Area - Mobile Luxury black background */}
-                <div className="mx-12 min-h-screen bg-black relative z-10">
+                {/* Main Content Area - Updated Background */}
+                <div className="mx-12 min-h-screen relative z-10" style={{ backgroundColor: '#1e1e1e' }}>
                     {children}
                 </div>
             </div>
